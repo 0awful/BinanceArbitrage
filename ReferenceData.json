@@ -1,0 +1,36 @@
+/*
+BTCUSDT.ask < Previous then calculate these routes
+USDT -> BTC -> ETH -> USDT
+USDT -> BTC -> BNB -> USDT
+USDT -> BTC -> BCC -> USDT
+USDT -> BTC -> LTC -> USDT
+USDT -> BTC -> NEO -> USDT
+
+BTCUSDT.bid > Previous then calculate these routes
+USDT -> ETH -> BTC -> USDT
+USDT -> BNB -> BTC -> USDT
+USDT -> BCC -> BTC -> USDT
+USDT -> LTC -> BTC -> USDT
+USDT -> NEO -> BTC -> USDT
+
+ETHUSDT.ask < Previous then calculate these routes
+USDT -> ETH -> BNB -> USDT
+USDT -> ETH -> BCC -> USDT
+USDT -> ETH -> LTC -> USDT
+USDT -> ETH -> NEO -> USDT
+
+ETHUSDT.bid > Previous then calculate these routes
+USDT -> BNB -> ETH ->  USDT
+USDT -> BCC -> ETH ->  USDT
+USDT -> LTC -> ETH ->  USDT
+USDT -> NEO -> ETH ->  USDT
+
+BNBUSDT.ask < Previous then calculate these routes
+USDT -> BNB -> NEO -> USDT
+USDT -> BNB -> BCC -> USDT
+USDT -> BNB -> LTC -> USDT
+
+BNBUSDT.bid > Previous then calculate these routes
+USDT -> NEO -> BNB -> USDT
+USDT -> BCC -> BNB -> USDT
+USDT -> LTC -> BNB -> USDT */

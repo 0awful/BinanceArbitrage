@@ -1,0 +1,40 @@
+
+  BTCUSDT.ask * ETHBTC.ask < ETHUSDT.bid
+
+  BTCUSDT.ask * BNBBTC.ask < BNBUSDT.bid
+
+  BTCUSDT.ask * BCCBTC.ask < BCCUSDT.bid
+
+  BTCUSDT.ask * LTCBTC.ask < LTCUSDT.bid
+
+  BTCUSDT.ask * NEOBTC.ask < NEOUSDT.bid
+
+
+  ETHUSDT.ask < ETHBTC.bid * BTCUSDT.bid
+
+  BNBUSDT.ask < BNBBTC.bid * BNBBTC.bid
+  BCCUSDT.ask < BCCBTC.bid * BTCUSDT.bid
+  LTCUSDT.ask < LTCBTC.bid * BTCUSDT.bid
+  NEOUSDT.ask < NEOBTC.bid * BTCUSDT.bid
+
+  ETHUSDT.ask * ETHBNB.ask < BNBUSDT.bid
+  ETHUSDT.ask * ETHBCC.ask < BCCUSDT.bid
+  ETHUSDT.ask * ETHLTC.ask < LTCUSDT.bid
+  ETHUSDT.ask * ETHNEO.ask < NEOUSDT.bid
+
+
+  BNBUSDT.ask < BNBETH.bid * ETHUSDT.bid
+
+  BCCUSDT.ask < BCCETH.bid * ETHUSDT.bid
+
+  LTCUSDT.ask < LTCETH.bid * ETHUSDT.bid
+
+  NEOUSDT.ask < NEOETH.bid * ETHUSDT.bid
+
+  BNBUSDT.ask * BCCBNB.ask < BCCUSDT.bid
+  BNBUSDT.ask * LTCBNB.ask < LTCUSDT.bid
+  BNBUSDT.ask * NEOBNB.ask < NEOUSDT.bid
+
+  NEOUSDT.ask < NEOBNB.bid * BNBUSDT.bid
+  BCCUSDT.ask < BCCBNB.bid * BNBUSDT.bid
+  LTCUSDT.ask < LTCBNB.bid * BNBUSDT.bid
