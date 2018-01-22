@@ -17,6 +17,23 @@
 //   }
 // }
 
+// route = {
+//   profitability:
+//   tradeOne: {
+//     ticker:
+//     quantity:
+//     direction:
+//   }
+//   tradeTwo: {
+//     ticker:
+//     direction:
+//   }
+//   tradeThree: {
+//     ticker:
+//     direction:
+//   }
+// }
+
 function calculateClassARoute(
   tradeOnePrice,
   tradeOneQty,
@@ -34,8 +51,6 @@ function calculateClassARoute(
   const tradeOneInverse = 1 / tradeOnePrice;
   const tradeTwoInverse = 1 / tradeTwoPrice;
   const tradeThreeInverse = 1 / tradeThreePrice;
-
-  let successful = false;
 
   const tradeOneThroughput =
     tradeOneQty *
@@ -63,7 +78,16 @@ function calculateClassARoute(
         'input',
         tradeOneInput
       );
-      successful = tradeOneThroughput > tradeOneInput;
+      if (tradeOneThroughput > tradeOneInput) {
+        return createTradeCombination(
+          createFirstTrade(tradeOneTicker, tradeOneInput, 'BUY'),
+          createTrade(tradeTwoTicker, 'SELL'),
+          createTrade(tradeThreeTicker, 'SELL'),
+          tradeOneThroughput - tradeOneInput
+        );
+      } else {
+        return null;
+      }
       break;
     case tradeTwoThroughput:
       const tradeTwoInput = tradeTwoQty * tradeOneInverse * inverseFee;
@@ -74,7 +98,16 @@ function calculateClassARoute(
         'input',
         tradeTwoInput
       );
-      successful = tradeTwoThroughput > tradeTwoInput;
+      if (tradeTwoThroughput > tradeTwoInput) {
+        return createTradeCombination(
+          createFirstTrade(tradeOneTicker, tradeTwoInput, 'BUY'),
+          createTrade(tradeTwoTicker, 'SELL'),
+          createTrade(tradeThreeTicker, 'SELL'),
+          tradeTwoThroughput - tradeTwoInput
+        );
+      } else {
+        return null;
+      }
       break;
     case tradeThreeThroughput:
       const tradeThreeInput =
@@ -90,14 +123,19 @@ function calculateClassARoute(
         'input',
         tradeThreeInput
       );
-      successful = tradeThreeThroughput > tradeThreeInput;
+      if (tradeThreeThroughput > tradeThreeInput) {
+        return createTradeCombination(
+          createFirstTrade(tradeOneTicker, tradeThreeInput, 'BUY'),
+          createTrade(tradeTwoTicker, 'SELL'),
+          createTrade(tradeThreeTicker, 'SELL'),
+          tradeThreeThroughput - tradeThreeInput
+        );
+      } else {
+        return null;
+      }
       break;
     default:
       console.log('How did this happen?');
-  }
-
-  if (successful) {
-    console.log('this would be profitable');
   }
 }
 
@@ -143,7 +181,14 @@ function calculateClassBRoute(
         tradeOneInput
       );
       if (tradeOneThroughput > tradeOneInput) {
-        console.log('This would be profitable');
+        return createTradeCombination(
+          createFirstTrade(tradeOneTicker, tradeOneInput, 'BUY'),
+          createTrade(tradeTwoTicker, 'BUY'),
+          createTrade(tradeThreeTicker, 'SELL'),
+          tradeOneThroughput - tradeOneInput
+        );
+      } else {
+        return null;
       }
       break;
     case tradeTwoThroughput:
@@ -156,7 +201,14 @@ function calculateClassBRoute(
         tradeTwoInput
       );
       if (tradeTwoThroughput > tradeTwoInput) {
-        console.log('This would be profitable');
+        return createTradeCombination(
+          createFirstTrade(tradeOneTicker, tradeTwoInput, 'BUY'),
+          createTrade(tradeTwoTicker, 'BUY'),
+          createTrade(tradeThreeTicker, 'SELL'),
+          tradeTwoThroughput - tradeTwoInput
+        );
+      } else {
+        return null;
       }
       break;
     case tradeThreeThroughput:
@@ -174,7 +226,14 @@ function calculateClassBRoute(
         tradeThreeInput
       );
       if (tradeThreeThroughput > tradeThreeInput) {
-        console.log('This would be profitable');
+        return createTradeCombination(
+          createFirstTrade(tradeOneTicker, tradeThreeInput, 'BUY'),
+          createTrade(tradeTwoTicker, 'BUY'),
+          createTrade(tradeThreeTicker, 'SELL'),
+          tradeThreeThroughput - tradeThreeInput
+        );
+      } else {
+        return null;
       }
       break;
     default:
@@ -196,7 +255,7 @@ function findLimit(one, two, three) {
   return three;
 }
 
-function createTrade(ticker, quantity, direction) {
+function createFirstTrade(ticker, quantity, direction) {
   return {
     Ticker: ticker,
     Quantity: quantity,
@@ -204,8 +263,16 @@ function createTrade(ticker, quantity, direction) {
   };
 }
 
-function createTradeCombination(nodeOne, nodeTwo, nodeThree) {
+function createTrade(ticker, direction) {
   return {
+    Ticker: ticker,
+    Direction: direction
+  };
+}
+
+function createTradeCombination(nodeOne, nodeTwo, nodeThree, profitability) {
+  return {
+    profitability: profitability,
     tradeOne: nodeOne,
     tradeTwo: nodeTwo,
     tradeThree: nodeThree
