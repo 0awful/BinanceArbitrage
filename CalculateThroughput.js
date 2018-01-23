@@ -74,18 +74,17 @@ function calculateClassARoute(
       tradeOneQtyFinal = tradeOneQty;
 
       if (tradeOneThroughput > tradeOneQtyFinal) {
-        let tradeTwoQtyFinal = tradeOneQtyFinal * tradeTwoInverse * forwardFee;
+        let tradeTwoQtyFinal = tradeOneQtyFinal * tradeOnePrice * forwardFee;
         let tradeThreeQtyFinal =
           tradeOneQtyFinal *
           tradeOnePrice *
           tradeTwoInverse *
-          tradeThreeInverse *
           forwardFee *
           forwardFee;
         let profit = tradeOneThroughput - tradeOneQtyFinal;
 
         return createTradeCombination(
-          createTrade(tradeOneTicker, tradeOneQtyFinal, 'BUY'),
+          createFirstTrade(tradeOneTicker, tradeOneQtyFinal, 'BUY'),
           createTrade(tradeTwoTicker, tradeTwoQtyFinal, 'SELL'),
           createTrade(tradeThreeTicker, tradeThreeQtyFinal, 'SELL'),
           profit
@@ -99,7 +98,7 @@ function calculateClassARoute(
 
       if (tradeTwoThroughput > tradeOneQtyFinal) {
         let tradeTwoQtyFinal = tradeTwoQty;
-        let tradeThreeQtyFinal = tradeTwoQty * tradeThreeInput * forwardFee;
+        let tradeThreeQtyFinal = tradeTwoQty * tradeTwoInverse * forwardFee;
         let profit = tradeTwoThroughput - tradeOneQtyFinal;
 
         return createTradeCombination(
