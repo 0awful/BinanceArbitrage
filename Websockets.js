@@ -5,7 +5,11 @@ binance.options({
   APISECRET: 'BdOr83FEkgdPEP7oXA21MjdLI43v09NCWivgLxlsHBHhvsYgrnCrjM6MFDIsGzi7'
 });
 
-function subscribeTickerObject(tickerSymbol, tickersObject) {
+function subscribeTickerObject(
+  tickerSymbol,
+  tickersObject,
+  calculationFunction
+) {
   binance.websockets.depthCache([tickerSymbol], (symbol, depth) => {
     let bids = binance.sortBids(depth.bids);
     let asks = binance.sortAsks(depth.asks);
@@ -25,11 +29,41 @@ function subscribeTickerObject(tickerSymbol, tickersObject) {
     tickersObject[tickerSymbol].askQty = currentAskVolume;
 
     if (currentBid > previousBid) {
-      // evaluate trades
+      let route = calculationFunction(
+        tickersObject.LTCBTC.ask,
+        tickersObject.LTCBTC.askQty,
+        'LTCBTC',
+        tickersObject.LTCETH.bid,
+        tickersObject.LTCETH.bidQty,
+        'LTCETH',
+        tickersObject.ETHBTC.bid,
+        tickersObject.ETHBTC.bidQty,
+        'ETHBTC'
+      );
+      if (route && route.profitability > 0.0001) {
+        console.log('Profitable route found!');
+        console.log('Profitability:', route.profitability);
+        console.log('Input:', route.tradeOne.qty);
+      }
     }
 
     if (currentAsk < previousAsk) {
-      // evaluate trades
+      let route = calculationFunction(
+        tickersObject.LTCBTC.ask,
+        tickersObject.LTCBTC.askQty,
+        'LTCBTC',
+        tickersObject.LTCETH.bid,
+        tickersObject.LTCETH.bidQty,
+        'LTCETH',
+        tickersObject.ETHBTC.bid,
+        tickersObject.ETHBTC.bidQty,
+        'ETHBTC'
+      );
+      if (route && route.profitability > 0.0001) {
+        console.log('Profitable route found!');
+        console.log('Profitability:', route.profitability);
+        console.log('Input:', route.tradeOne.qty);
+      }
     }
   });
 }
@@ -45,16 +79,16 @@ function constructTickers(tickersObject, tickersNameArray) {
   }
 }
 
-function subscribeTickers(tickers) {
+function subscribeTickers(tickers, calculationFunction) {
   let keys = Object.keys(tickers);
   for (let i = 0; i < keys.length; i++) {
-    subscribeTickerObject(keys[i], tickers);
+    subscribeTickerObject(keys[i], tickers, calculationFunction);
   }
 }
 
-function initializeData(tickers, tickerData) {
+function initializeData(tickers, tickerData, calculationFunction) {
   constructTickers(tickers, tickerData);
-  subscribeTickers(tickers);
+  subscribeTickers(tickers, calculationFunction);
 }
 
 module.exports.initialize = initializeData;

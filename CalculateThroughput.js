@@ -71,13 +71,6 @@ function calculateClassARoute(
   )) {
     case tradeOneThroughput:
       const tradeOneInput = tradeOneQty;
-      console.log(
-        'Best Route, trade one',
-        'throughput',
-        tradeOneThroughput,
-        'input',
-        tradeOneInput
-      );
       if (tradeOneThroughput > tradeOneInput) {
         return createTradeCombination(
           createFirstTrade(tradeOneTicker, tradeOneInput, 'BUY'),
@@ -91,13 +84,7 @@ function calculateClassARoute(
       break;
     case tradeTwoThroughput:
       const tradeTwoInput = tradeTwoQty * tradeOneInverse * inverseFee;
-      console.log(
-        'Best Route, trade two',
-        'throughput',
-        tradeTwoThroughput,
-        'input',
-        tradeTwoInput
-      );
+
       if (tradeTwoThroughput > tradeTwoInput) {
         return createTradeCombination(
           createFirstTrade(tradeOneTicker, tradeTwoInput, 'BUY'),
@@ -116,13 +103,7 @@ function calculateClassARoute(
         tradeTwoPrice *
         inverseFee *
         inverseFee;
-      console.log(
-        'Best Route, trade two',
-        'throughput',
-        tradeThreeThroughput,
-        'input',
-        tradeThreeInput
-      );
+
       if (tradeThreeThroughput > tradeThreeInput) {
         return createTradeCombination(
           createFirstTrade(tradeOneTicker, tradeThreeInput, 'BUY'),
@@ -173,13 +154,7 @@ function calculateClassBRoute(
   )) {
     case tradeOneThroughput:
       const tradeOneInput = tradeOneQty;
-      console.log(
-        'Best Route, trade one',
-        'throughput',
-        tradeOneThroughput,
-        'input',
-        tradeOneInput
-      );
+
       if (tradeOneThroughput > tradeOneInput) {
         return createTradeCombination(
           createFirstTrade(tradeOneTicker, tradeOneInput, 'BUY'),
@@ -193,13 +168,6 @@ function calculateClassBRoute(
       break;
     case tradeTwoThroughput:
       const tradeTwoInput = tradeTwoQty * tradeOneInverse * inverseFee;
-      console.log(
-        'Best Route, trade two',
-        'throughput',
-        tradeTwoThroughput,
-        'input',
-        tradeTwoInput
-      );
       if (tradeTwoThroughput > tradeTwoInput) {
         return createTradeCombination(
           createFirstTrade(tradeOneTicker, tradeTwoInput, 'BUY'),
@@ -218,13 +186,6 @@ function calculateClassBRoute(
         tradeTwoInverse *
         inverseFee *
         inverseFee;
-      console.log(
-        'Best Route, trade two',
-        'throughput',
-        tradeThreeThroughput,
-        'input',
-        tradeThreeInput
-      );
       if (tradeThreeThroughput > tradeThreeInput) {
         return createTradeCombination(
           createFirstTrade(tradeOneTicker, tradeThreeInput, 'BUY'),
@@ -258,7 +219,7 @@ function findLimit(one, two, three) {
 function createFirstTrade(ticker, quantity, direction) {
   return {
     Ticker: ticker,
-    Quantity: quantity,
+    qty: quantity,
     Direction: direction
   };
 }
