@@ -84,7 +84,7 @@ function calculateClassARoute(
         let profit = tradeOneThroughput - tradeOneQtyFinal;
 
         return createTradeCombination(
-          createFirstTrade(tradeOneTicker, tradeOneQtyFinal, 'BUY'),
+          createTrade(tradeOneTicker, tradeOneQtyFinal, 'BUY'),
           createTrade(tradeTwoTicker, tradeTwoQtyFinal, 'SELL'),
           createTrade(tradeThreeTicker, tradeThreeQtyFinal, 'SELL'),
           profit
