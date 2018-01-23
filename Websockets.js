@@ -43,7 +43,9 @@ function subscribeTickerObject(
       if (route && route.profitability > 0.0001) {
         console.log('Profitable route found!');
         console.log('Profitability:', route.profitability);
-        console.log('Input:', route.tradeOne.qty);
+        console.log('Trade one:', route.tradeOne);
+        console.log('Trade two:', route.tradeTwo);
+        console.log('Trade three:', route.tradeThree);
       }
     }
 
@@ -62,7 +64,9 @@ function subscribeTickerObject(
       if (route && route.profitability > 0.0001) {
         console.log('Profitable route found!');
         console.log('Profitability:', route.profitability);
-        console.log('Input:', route.tradeOne.qty);
+        console.log('Trade one:', route.tradeOne);
+        console.log('Trade two:', route.tradeTwo);
+        console.log('Trade three:', route.tradeThree);
       }
     }
   });
