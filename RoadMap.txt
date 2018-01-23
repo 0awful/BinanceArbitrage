@@ -1,0 +1,18 @@
+Stage 1: BTC LTC ETH BTC route and inverse route, trades
+  subscribe to the inverse route too
+  do the calculations in real time
+  if it is above a certain profitability do the trade
+  do all trades simultaneously
+
+Refine the route object
+  Route needs to be an object with quantities for all the tickers and the trade
+
+Create a buy/sell function that takes a route and does the trade on the ticker
+  create a meta object that does this for a whole route
+
+Create a profitability checker
+  If profitable, then calculate routes
+  pass these routes to the order function
+
+Run this shit on a different account, from a different server
+  see what happens
