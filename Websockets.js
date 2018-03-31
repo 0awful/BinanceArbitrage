@@ -1,6 +1,14 @@
 const binance = require('node-binance-api');
+const calculate = require('./CalculateThroughput.js');
+const normalize = require('./createDataObject.js');
+
+let warmupTimer = 0;
+let profit = 0;
+let profitableTrades = 0;
+let activeProfitableRoute = false;
 
 binance.options({
+  // these are invalid, be sure to use your own key
   APIKEY: 'ofVTc0iMdNO18rVgMk3KjdOhVdEVg7e2cj17A1DKCpWvNbf6Nnv2jjPxQLbSJ3JT',
   APISECRET: 'BdOr83FEkgdPEP7oXA21MjdLI43v09NCWivgLxlsHBHhvsYgrnCrjM6MFDIsGzi7'
 });
@@ -28,45 +36,34 @@ function subscribeTickerObject(
     tickersObject[tickerSymbol].ask = currentAsk;
     tickersObject[tickerSymbol].askQty = currentAskVolume;
 
-    if (currentBid > previousBid) {
-      let route = calculationFunction(
-        tickersObject.LTCBTC.ask,
-        tickersObject.LTCBTC.askQty,
+    if (warmupTimer < 20) {
+      console.log('warming up:', warmupTimer);
+      warmupTimer++;
+    } else {
+      const dataObject = normalize.createDataObject(
         'LTCBTC',
-        tickersObject.LTCETH.bid,
-        tickersObject.LTCETH.bidQty,
         'LTCETH',
-        tickersObject.ETHBTC.bid,
-        tickersObject.ETHBTC.bidQty,
-        'ETHBTC'
+        'ETHBTC',
+        'BUY',
+        'SELL',
+        'SELL',
+        tickersObject
       );
-      if (route && route.profitability > 0.0001) {
-        console.log('Profitable route found!');
-        console.log('Profitability:', route.profitability);
-        console.log('Trade one:', route.tradeOne);
-        console.log('Trade two:', route.tradeTwo);
-        console.log('Trade three:', route.tradeThree);
-      }
-    }
+      let trade = calculate.calculateThroughput(dataObject, null);
 
-    if (currentAsk < previousAsk) {
-      let route = calculationFunction(
-        tickersObject.LTCBTC.ask,
-        tickersObject.LTCBTC.askQty,
-        'LTCBTC',
-        tickersObject.LTCETH.bid,
-        tickersObject.LTCETH.bidQty,
-        'LTCETH',
-        tickersObject.ETHBTC.bid,
-        tickersObject.ETHBTC.bidQty,
-        'ETHBTC'
-      );
-      if (route && route.profitability > 0.0001) {
-        console.log('Profitable route found!');
-        console.log('Profitability:', route.profitability);
-        console.log('Trade one:', route.tradeOne);
-        console.log('Trade two:', route.tradeTwo);
-        console.log('Trade three:', route.tradeThree);
+      if (trade.profitability > 0) {
+        if (activeProfitableRoute != true) {
+          activeProfitableRoute = true;
+          profit += trade.profitability;
+          profitableTrades++;
+          console.log(JSON.stringify(trade));
+        }
+
+        console.log(JSON.stringify(trade));
+        console.log('Profits:', profit);
+        console.log('trades', profitableTrades);
+      } else {
+        activeProfitableRoute = false;
       }
     }
   });

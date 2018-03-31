@@ -13,6 +13,3 @@ Create a buy/sell function that takes a route and does the trade on the ticker
 Create a profitability checker
   If profitable, then calculate routes
   pass these routes to the order function
-
-Run this shit on a different account, from a different server
-  see what happens
